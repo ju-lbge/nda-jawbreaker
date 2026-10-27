@@ -1,28 +1,61 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // --- ÉLÉMENTS DU DOM ---
-    const terminalBoot = document.getElementById("terminal-boot");
-    const enterBtn = document.getElementById("enter-btn");
-    const mainContent = document.getElementById("main-content");
-    const checkboxes = document.querySelectorAll(".nda-check");
-    const payBtn = document.getElementById("pay-btn");
-    const glitchPopup = document.getElementById("glitch-popup");
-    const employeeLogin = document.getElementById("employee-login");
+    // --- ÉLÉMENTS DOM ---
+    const specimen = document.getElementById("evidence-specimen");
+    const checkboxes = document.querySelectorAll(".nda-checkbox");
+    const waxBtn = document.getElementById("wax-seal-btn");
+    const lockWarning = document.getElementById("lock-warning");
+    const stampModal = document.getElementById("stamp-modal");
+    const breachAlert = document.getElementById("breach-alert");
+    const argConsole = document.getElementById("arg-console");
+    const countdownEl = document.getElementById("countdown");
 
-    // --- TRANSITION DU TERMINAL VERS LE CONTRAT ---
-    enterBtn.addEventListener("click", () => {
-        terminalBoot.classList.add("hidden");
-        mainContent.classList.remove("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+    // --- 1. COMPTE À REBOURS DU DROP (ÉVÉNEMENTIEL) ---
+    let totalSeconds = 4 * 3600 + 12 * 60 + 47;
+    function updateCountdown() {
+        if (totalSeconds <= 0) {
+            countdownEl.textContent = "00:00:00 - EXCHANGES CLOSED";
+            return;
+        }
+        totalSeconds--;
+        const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+        const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+        const s = String(totalSeconds % 60).padStart(2, "0");
+        countdownEl.textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateCountdown, 1000);
 
-    // --- GESTION DU CANVAS DE SIGNATURE ---
-    const canvas = document.getElementById("signature-pad");
+    // --- 2. EFFET PARALLAX FLUIDE SUR LE SACHET EVIDENCE ---
+    let targetY = 0;
+    let currentY = 0;
+    let targetRot = 0;
+    let currentRot = 0;
+
+    window.addEventListener("scroll", () => {
+        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        // Descente contrôlée et légère rotation dynamique
+        targetY = scrollPercent * 280;
+        targetRot = -4 + scrollPercent * 16;
+    }, { passive: true });
+
+    function renderParallax() {
+        currentY += (targetY - currentY) * 0.08;
+        currentRot += (targetRot - currentRot) * 0.08;
+        
+        if (specimen) {
+            specimen.style.transform = `translate3d(0, ${currentY.toFixed(2)}px, 0) rotate(${currentRot.toFixed(2)}deg)`;
+        }
+        requestAnimationFrame(renderParallax);
+    }
+    renderParallax();
+
+    // --- 3. GESTION DU CANVAS DE SIGNATURE ---
+    const canvas = document.getElementById("sig-canvas");
     const ctx = canvas.getContext("2d");
     const clearBtn = document.getElementById("clear-sig");
     let isDrawing = false;
     let hasSigned = false;
 
-    ctx.strokeStyle = "#000";
+    ctx.strokeStyle = "#111317";
     ctx.lineWidth = 2.5;
     ctx.lineCap = "round";
 
@@ -36,117 +69,134 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    function startDrawing(e) {
+    function startSign(e) {
         isDrawing = true;
-        const coords = getCoords(e);
+        const { x, y } = getCoords(e);
         ctx.beginPath();
-        ctx.moveTo(coords.x, coords.y);
+        ctx.moveTo(x, y);
     }
 
-    function draw(e) {
+    function drawSign(e) {
         if (!isDrawing) return;
-        e.preventDefault();
-        const coords = getCoords(e);
-        ctx.lineTo(coords.x, coords.y);
+        if (e.cancelable) e.preventDefault();
+        const { x, y } = getCoords(e);
+        ctx.lineTo(x, y);
         ctx.stroke();
         hasSigned = true;
-        checkUnlockStatus();
+        checkCompliance();
     }
 
-    function stopDrawing() {
+    function stopSign() {
         isDrawing = false;
     }
 
-    canvas.addEventListener("mousedown", startDrawing);
-    canvas.addEventListener("mousemove", draw);
-    window.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mousedown", startSign);
+    canvas.addEventListener("mousemove", drawSign);
+    window.addEventListener("mouseup", stopSign);
 
-    canvas.addEventListener("touchstart", startDrawing, { passive: false });
-    canvas.addEventListener("touchmove", draw, { passive: false });
-    window.addEventListener("touchend", stopDrawing);
+    canvas.addEventListener("touchstart", startSign, { passive: false });
+    canvas.addEventListener("touchmove", drawSign, { passive: false });
+    window.addEventListener("touchend", stopSign);
 
     clearBtn.addEventListener("click", () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         hasSigned = false;
-        checkUnlockStatus();
+        checkCompliance();
     });
 
-    // --- VÉRIFICATION DES CONDITIONS D'ACHAT ---
-    function checkUnlockStatus() {
-        const allChecked = Array.from(checkboxes).every(box => box.checked);
-
+    // --- 4. CONTRÔLE DE VALIDATION DU PROTOCOLE ---
+    function checkCompliance() {
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        
         if (allChecked && hasSigned) {
-            payBtn.disabled = false;
-            payBtn.classList.add("unlocked");
-            payBtn.textContent = "[ DÉVERROUILLÉ : EXTRACTION 87.00€ ]";
+            waxBtn.disabled = false;
+            lockWarning.textContent = "PROTOCOLE REMPLI // ACCÈS AU CONTENEUR DÉVERROUILLÉ";
+            lockWarning.style.color = "var(--term-green)";
         } else {
-            payBtn.disabled = true;
-            payBtn.classList.remove("unlocked");
-            payBtn.textContent = "VERROUILLÉ : COMPLÉTER LES PROCÉDURES";
+            waxBtn.disabled = true;
+            lockWarning.textContent = "VERROUILLÉ : SIGNEZ LE PROTOCOLE ET VALIDEZ LES 4 CLAUSES";
+            lockWarning.style.color = "#8b949e";
         }
     }
 
-    checkboxes.forEach(box => {
-        box.addEventListener("change", checkUnlockStatus);
-    });
+    checkboxes.forEach(cb => cb.addEventListener("change", checkCompliance));
 
-    // --- SYNTHÈSE SONORE DE TAMPON ADMINISTRATIF (Web Audio) ---
-    function playSlamSound() {
+    // --- 5. SYNTHÈSE AUDIO WEB-AUDIO (TAMPON LOURD / THUMP) ---
+    function playSlamImpact() {
         try {
-            const AudioCtx = window.AudioContext || window.webkitAudioContext;
-            const ctxAudio = new AudioCtx();
-            const osc = ctxAudio.createOscillator();
-            const gain = ctxAudio.createGain();
-
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const actx = new AudioContext();
+            
+            // Sub oscillator pour le choc lourd
+            const osc = actx.createOscillator();
+            const gain = actx.createGain();
+            
             osc.type = "sine";
-            osc.frequency.setValueAtTime(150, ctxAudio.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(30, ctxAudio.currentTime + 0.3);
-
-            gain.gain.setValueAtTime(1, ctxAudio.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, ctxAudio.currentTime + 0.4);
-
+            osc.frequency.setValueAtTime(160, actx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(25, actx.currentTime + 0.4);
+            
+            gain.gain.setValueAtTime(1, actx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.45);
+            
             osc.connect(gain);
-            gain.connect(ctxAudio.destination);
-
+            gain.connect(actx.destination);
+            
             osc.start();
-            osc.stop(ctxAudio.currentTime + 0.45);
-        } catch (err) {
-            console.error("Audio Context indisponible", err);
-        }
+            osc.stop(actx.currentTime + 0.5);
+        } catch(e) {}
     }
 
-    // --- CLIC SUR LE BOUTON D'ACHAT ---
-    payBtn.addEventListener("click", () => {
-        if (payBtn.disabled) return;
-        playSlamSound();
-        payBtn.textContent = "DOSSIER TRANSMIS // SUJET ENREGISTRÉ";
-        payBtn.style.background = "#fff";
-        payBtn.style.color = "#000";
-        alert("PROTOCOLE VALIDÉ. L'échantillon #087 sera expédié dans un conteneur scellé. Toute discussion publique annulera la commande.");
-    });
+    // --- 6. ACTION DU SCEAU DE CIRE (ACHAT & IMPACT) ---
+    waxBtn.addEventListener("click", () => {
+        if (waxBtn.disabled) return;
+        
+        playSlamImpact();
+        
+        // Tremblement de la fenêtre
+        document.body.style.transform = "translateY(5px)";
+        setTimeout(() => document.body.style.transform = "none", 100);
 
-    // --- FAUX POP-UP DE SÉCURITÉ ALÉATOIRE ---
-    function triggerBreachWarning() {
-        glitchPopup.classList.remove("hidden");
+        // Affichage tampon géant
+        stampModal.classList.remove("modal-hidden");
+        
         setTimeout(() => {
-            glitchPopup.classList.add("hidden");
-        }, 2200);
-
-        const nextDelay = 12000 + Math.random() * 18000;
-        setTimeout(triggerBreachWarning, nextDelay);
-    }
-    setTimeout(triggerBreachWarning, 7000);
-
-    // --- EASTER EGG : TERMINAL EMPLOYÉ ---
-    employeeLogin.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            const val = employeeLogin.value.trim().toLowerCase();
-            if (val === "acide citrique" || val === "sujet zero") {
-                alert("ACCÈS AUTORISÉ : Échantillon classé violet toxique. pH mesuré à 1.4.");
-            } else {
-                alert("ACCÈS REFUSÉ : Incident consigné dans le journal de bord.");
-            }
-            employeeLogin.value = "";
-        }
+            stampModal.classList.add("modal-hidden");
+            const orderRef = "SWD-087-" + Math.random().toString(36).substring(2, 7).toUpperCase();
+            waxBtn.disabled = true;
+            waxBtn.innerHTML = `<span class="wax-text">ACQUISITION OK</span><span class="wax-price">${orderRef}</span>`;
+            lockWarning.textContent = "ÉCHANTILLON EN COURS D'ACHEMINEMENT SÉCURISÉ // GARDEZ LE SILENCE";
+            lockWarning.style.color = "var(--pink-wax)";
+        }, 1800);
     });
+
+    // --- 7. ALERTE POP-UP BRÈCHE ALÉATOIRE ---
+    function triggerBreach() {
+        if (!breachAlert) return;
+        breachAlert.classList.remove("breach-hidden");
+        
+        setTimeout(() => {
+            breachAlert.classList.add("breach-hidden");
+        }, 3200);
+
+        // Réapparition aléatoire entre 14 et 30 secondes
+        setTimeout(triggerBreach, 14000 + Math.random() * 16000);
+    }
+    setTimeout(triggerBreach, 6000);
+
+    // --- 8. EASTER EGG CONSOLE ARG (PIEDS DE PAGE) ---
+    if (argConsole) {
+        argConsole.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                const val = argConsole.value.trim().toLowerCase();
+                if (val === "251-4330" || val === "#087-1036") {
+                    alert("RAPPORT DÉCLASSIFIÉ : Le bonbon n'a pas été aromatisé intentionnellement. Il s'agit d'un résidu de polymère comestible ayant absorbé le nettoyant industriel.");
+                } else if (val === "sujet zero") {
+                    alert("IDENTIFIANT CONFIRMÉ : Vos coordonnées ont été purgées du registre public. Conservez l'enveloppe.");
+                } else {
+                    alert("ERREUR CODE ARCHIVE : Entrée non répertoriée.");
+                }
+                argConsole.value = "";
+            }
+        });
+    }
 });
