@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NDA JAWBREAKER — DROP #087 // CLASSIFIED</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=VT323&display=swap" rel="stylesheet">
+  <!-- Lien vers le fichier CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- EASTER EGG : Note à l'équipe de production : Réduire le pH. La réaction avec le composant [Acide Citrique] a fait fondre la cuve n°4. Le goût est stabilisé mais reste dangereux pour les palais non-avertis. -->
+
+  <div id="bg" aria-hidden="true">
+    <div class="ghost" id="ghost">087</div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="hud" id="hud">CLEARANCE LVL 4 // <span id="clause">CLAUSE 00/03</span></div>
+
+  <!-- Faux pop-up terminal de sécurité (caché par défaut) -->
+  <div id="security-breach" class="hidden-breach">
+    > TENTATIVE DE BREACH DÉTECTÉE - VOTRE IP EST ENREGISTRÉE
+  </div>
+
+  <!-- Visuel du Produit 3D/Graphique -->
+  <div id="product" aria-hidden="true">
+    <img alt="NDA Jawbreaker" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><defs><radialGradient id='g' cx='34%25' cy='28%25' r='80%25'><stop offset='0' stop-color='%23ffd0de'/><stop offset='.22' stop-color='%23ff0055'/><stop offset='.7' stop-color='%23560019'/><stop offset='1' stop-color='%23150006'/></radialGradient><radialGradient id='h' cx='30%25' cy='24%25' r='20%25'><stop offset='0' stop-color='white' stop-opacity='.9'/><stop offset='1' stop-color='white' stop-opacity='0'/></radialGradient></defs><circle cx='200' cy='200' r='185' fill='url(%23g)'/><path d='M60 250 C140 190 260 330 345 250' stroke='%23000' stroke-opacity='.28' stroke-width='14' fill='none'/><path d='M70 190 C150 130 250 260 335 190' stroke='%23fff' stroke-opacity='.12' stroke-width='9' fill='none'/><circle cx='200' cy='200' r='185' fill='url(%23h)'/><rect x='95' y='170' width='210' height='62' fill='%23000'/><text x='200' y='217' font-family='Courier New,monospace' font-size='38' font-weight='bold' fill='%238b919a' text-anchor='middle'>CLASSIFIED</text></svg>">
+  </div>
+
+  <header class="hero">
+    <p class="tag">DROP #087 // EYES ONLY</p>
+    <h1>The <em data-t="NDA">NDA</em><br>Jaw&shy;breaker</h1>
+    <p class="sub">Un bonbon. Une saveur. <b>Le goût est un secret industriel</b> et, à compter de ce paragraphe, le fait que vous lisiez cette phrase l'est aussi.</p>
+    <p class="scrollcue">▼ SCROLLEZ POUR ÊTRE LIÉ JURIDIQUEMENT ▼</p>
+    <div class="stripe"><p>Avertissement — lire cette page vaut acceptation — avertissement — lire cette page vaut acceptation —</p></div>
+  </header>
+
+  <!-- Contrat Caviardé -->
+  <main class="contract" id="contract">
+    <article>
+      <h2><small>ARTICLE 01</small>Définitions</h2>
+      <p>“<b>Le Goût</b>” désigne la saveur du Jawbreaker, ci-après un <span class="censored" data-w="SECRET INDUSTRIEL">secret industriel</span> de la Partie Divulgatrice.</p>
+      <p>“<b>Vous</b>” désigne l'Acheteur, une personne physique saine d'esprit, présumée <span class="censored">affamée</span> jusqu'à preuve du contraire.</p>
+    </article>
+    <article>
+      <h2><small>ARTICLE 02</small>Obligation de Silence</h2>
+      <p>Vous ne décrirez pas Le Goût par des mots, des gestes, une <span class="censored">danse interprétative</span> ou une grimace involontaire. Dire "C'est bon" est considéré comme une divulgation. Un soupir est considéré comme <span class="censored">une fuite</span>.</p>
+    </article>
+    <article>
+      <h2><small>ARTICLE 03</small>Usage du Produit</h2>
+      <p>Le Jawbreaker doit être consommé <b>dans une pièce scellée</b>, sans témoin, sans caméra, et sans <span class="censored">dentiste</span>. Il ne peut être mordu, croqué, partagé ou <span class="censored">léché en public</span>.</p>
+      <p class="alarm">Toute tentative de mâcher sera enregistrée dans un dossier que vous ne verrez jamais.</p>
+    </article>
+  </main>
+
+  <!-- Zone d'achat et Signature -->
+  <section class="access" id="access">
+    <h2>Article Final:<br>Reconnaissances</h2>
+    <p class="fine">Lisez attentivement. Ou pas. Cochez toutes les cases pour déverrouiller le sceau de paiement.</p>
+    <ul class="clauses">
+      <li><label><input type="checkbox" class="clause-box"> Je certifie ne pas travailler pour un confiseur concurrent.</label></li>
+      <li><label><input type="checkbox" class="clause-box"> J'accepte que toute divulgation entraîne une extraction immédiate de mes papilles gustatives.</label></li>
+      <li><label><input type="checkbox" class="clause-box"> Je consens à détruire l'emballage par incinération après consommation.</label></li>
+      <li><label><input type="checkbox" class="clause-box"> Je m'engage à utiliser le nom de code 'Sujet Zéro' en public.</label></li>
+    </ul>
+    <p class="status" id="status">0/4 CLAUSES ACCEPTÉES — SCEAU VERROUILLÉ</p>
+    
+    <div class="buy-zone" id="buyZone">
+      <button class="seal" id="seal" disabled aria-label="Signer et acquérir">Signer<br>&amp; Acquérir<small>87.00€</small></button>
+    </div>
+  </section>
+  
+  <footer>DROP #087 — TOUS DROITS RÉSERVÉS — TOUS TORTS ÉGALEMENT — REF. NDA/087/CLASSIFIED</footer>
+
+  <!-- Sceau d'impact -->
+  <div class="stamp-overlay" id="stampOverlay" aria-hidden="true"><div class="mark">Sealed</div></div>
+
+  <!-- Lien vers le fichier JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
