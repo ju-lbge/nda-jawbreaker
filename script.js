@@ -8,8 +8,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const breachAlert = document.getElementById("breach-alert");
     const argConsole = document.getElementById("arg-console");
     const countdownEl = document.getElementById("countdown");
+    const censors = document.querySelectorAll(".censor-text");
 
-    // --- 1. COMPTE À REBOURS DU DROP (ÉVÉNEMENTIEL) ---
+    // --- 1. LAMPE TORCHE DYNAMIQUE SUR TEXTES CAVIARDÉS ---
+    censors.forEach(el => {
+        el.addEventListener("mousemove", (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            el.style.setProperty("--torch-x", `${x}px`);
+            el.style.setProperty("--torch-y", `${y}px`);
+        });
+    });
+
+    // --- 2. COMPTE À REBOURS DU DROP ÉPHÉMÈRE ---
     let totalSeconds = 4 * 3600 + 12 * 60 + 47;
     function updateCountdown() {
         if (totalSeconds <= 0) {
@@ -24,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     setInterval(updateCountdown, 1000);
 
-    // --- 2. EFFET PARALLAX FLUIDE SUR LE SACHET EVIDENCE ---
+    // --- 3. PARALLAX FLUIDE SUR L'ENVELOPPE FLOTTANTE ---
     let targetY = 0;
     let currentY = 0;
     let targetRot = 0;
@@ -32,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("scroll", () => {
         const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-        // Descente contrôlée et légère rotation dynamique
         targetY = scrollPercent * 280;
         targetRot = -4 + scrollPercent * 16;
     }, { passive: true });
@@ -48,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     renderParallax();
 
-    // --- 3. GESTION DU CANVAS DE SIGNATURE ---
+    // --- 4. CANVAS DE SIGNATURE TACTILE / SOURIS ---
     const canvas = document.getElementById("sig-canvas");
     const ctx = canvas.getContext("2d");
     const clearBtn = document.getElementById("clear-sig");
@@ -104,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         checkCompliance();
     });
 
-    // --- 4. CONTRÔLE DE VALIDATION DU PROTOCOLE ---
+    // --- 5. VÉRIFICATION DES CLAUSES ET SIGNATURE ---
     function checkCompliance() {
         const allChecked = Array.from(checkboxes).every(cb => cb.checked);
         
@@ -121,13 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     checkboxes.forEach(cb => cb.addEventListener("change", checkCompliance));
 
-    // --- 5. SYNTHÈSE AUDIO WEB-AUDIO (TAMPON LOURD / THUMP) ---
+    // --- 6. SYNTHÈSE AUDIO WEB-AUDIO (IMPACT TAMPON SANS FICHIER EXTERNE) ---
     function playSlamImpact() {
         try {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             const actx = new AudioContext();
             
-            // Sub oscillator pour le choc lourd
             const osc = actx.createOscillator();
             const gain = actx.createGain();
             
@@ -146,17 +156,15 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch(e) {}
     }
 
-    // --- 6. ACTION DU SCEAU DE CIRE (ACHAT & IMPACT) ---
+    // --- 7. SCEAU DE PAIEMENT & IMPACT VISUEL ---
     waxBtn.addEventListener("click", () => {
         if (waxBtn.disabled) return;
         
         playSlamImpact();
         
-        // Tremblement de la fenêtre
         document.body.style.transform = "translateY(5px)";
         setTimeout(() => document.body.style.transform = "none", 100);
 
-        // Affichage tampon géant
         stampModal.classList.remove("modal-hidden");
         
         setTimeout(() => {
@@ -169,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1800);
     });
 
-    // --- 7. ALERTE POP-UP BRÈCHE ALÉATOIRE ---
+    // --- 8. POP-UP ALERTE BRÈCHE ALÉATOIRE ---
     function triggerBreach() {
         if (!breachAlert) return;
         breachAlert.classList.remove("breach-hidden");
@@ -178,12 +186,11 @@ document.addEventListener("DOMContentLoaded", () => {
             breachAlert.classList.add("breach-hidden");
         }, 3200);
 
-        // Réapparition aléatoire entre 14 et 30 secondes
         setTimeout(triggerBreach, 14000 + Math.random() * 16000);
     }
     setTimeout(triggerBreach, 6000);
 
-    // --- 8. EASTER EGG CONSOLE ARG (PIEDS DE PAGE) ---
+    // --- 9. EASTER EGG CONSOLE ARG ---
     if (argConsole) {
         argConsole.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
