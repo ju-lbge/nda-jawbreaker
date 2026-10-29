@@ -31,7 +31,7 @@ body {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 50;
+  z-index: 30;
   pointer-events: none;
 }
 
@@ -86,9 +86,9 @@ body {
   right: 3vw;
   top: 12vh;
   z-index: 20;
-  pointer-events: none;
   transition: transform 0.1s ease-out;
   width: clamp(320px, 34vw, 520px);
+  cursor: pointer;
 }
 
 .specimen-card.envelope-mode {
@@ -99,6 +99,7 @@ body {
   padding: 0;
   width: 100%;
   display: block;
+  position: relative;
 }
 
 .envelope-img {
@@ -106,6 +107,24 @@ body {
   height: auto;
   display: block;
   filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 1)) drop-shadow(0 0 35px rgba(255, 32, 121, 0.4));
+  transition: filter 0.3s ease;
+}
+
+.specimen-card:hover .envelope-img,
+.specimen-card:focus-visible .envelope-img {
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 1)) drop-shadow(0 0 45px rgba(255, 32, 121, 0.557));
+}
+
+.qr-glow-hint {
+  position: absolute;
+  bottom: 12%;
+  right: 14%;
+  width: 38px;
+  height: 38px;
+  border: 1px dashed var(--pink-glow);
+  border-radius: 4px;
+  opacity: 0.4;
+  animation: pulse 2s infinite;
 }
 
 /* --- HERO SECTION --- */
@@ -202,6 +221,11 @@ body {
   color: #8b949e;
   font-size: 0.85rem;
   letter-spacing: 1.5px;
+}
+
+#investigation-status-badge {
+  color: var(--pink-wax);
+  font-weight: bold;
 }
 
 .dossier-grid {
@@ -311,12 +335,266 @@ body {
 
 .chem-formula {
   font-size: 1.3rem;
-  color: var(--term-green);
+  color: var(--pink-wax);
   background: #000;
   padding: 14px;
   text-align: center;
   border: 1px dashed #1a1e24;
   margin-bottom: 10px;
+}
+
+/* --- FONCTIONNALITÉ B : DOCUMENTS CORROMPUS & CLUSTERS --- */
+.corrupted-memo-container {
+  margin-top: 20px;
+  padding: 16px;
+  background: #040508;
+  border: 1px dashed rgba(255, 32, 121, 0.35);
+}
+
+.memo-notice {
+  font-size: 0.8rem !important;
+  color: #6e7681 !important;
+  margin-bottom: 12px;
+}
+
+.memo-interactive-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.corrupt-node {
+  background: #11141a;
+  border: 1px solid #30363d;
+  color: #8b949e;
+  padding: 6px 14px;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.corrupt-node:hover,
+.corrupt-node:focus-visible {
+  border-color: var(--pink-wax);
+  color: var(--pink-wax);
+  box-shadow: 0 0 10px var(--pink-glow);
+  outline: none;
+}
+
+.corrupt-node.restored {
+  background: rgba(0, 255, 102, 0.08);
+  border-color: var(--pink-wax);
+  color: var(--pink-wax);
+  box-shadow: 0 0 8px rgba(0, 255, 102, 0.25);
+  cursor: default;
+}
+
+.memo-dash {
+  color: #484f58;
+}
+
+.memo-solution-feedback {
+  font-size: 0.82rem;
+  color: var(--pink-wax);
+  letter-spacing: 1px;
+}
+
+/* --- FONCTIONNALITÉ C : MODULE AUDIO D'INTERCEPTION --- */
+.secret-unlocked-box {
+  border-left: 3px solid var(--pink-wax);
+}
+
+.classified-audio-player {
+  margin-top: 18px;
+  padding: 16px;
+  background: #030406;
+  border: 1px solid #1a222d;
+}
+
+.audio-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.ctrl-btn {
+  background: #0e1218;
+  border: 1px solid var(--pink-wax);
+  color: var(--pink-wax);
+  font-family: var(--mono-font);
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 1px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.ctrl-btn:hover,
+.ctrl-btn:focus-visible {
+  background: rgba(0, 255, 102, 0.15);
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.4);
+  outline: none;
+}
+
+.audio-track-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  color: #8b949e;
+}
+
+.audio-waveform-bar {
+  display: inline-block;
+  width: 4px;
+  height: 12px;
+  background: #21262d;
+  border-radius: 1px;
+}
+
+.playing .audio-waveform-bar {
+  background: var(--pink-wax);
+  animation: wavePulse 0.6s infinite ease-in-out alternate;
+}
+
+.playing .audio-waveform-bar:nth-child(2) { animation-delay: 0.15s; }
+.playing .audio-waveform-bar:nth-child(3) { animation-delay: 0.3s; }
+.playing .audio-waveform-bar:nth-child(4) { animation-delay: 0.45s; }
+
+@keyframes wavePulse {
+  0% { height: 6px; }
+  100% { height: 22px; }
+}
+
+.audio-volume-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #8b949e;
+}
+
+.audio-volume-wrap input[type="range"] {
+  accent-color: var(--pink-wax);
+  cursor: pointer;
+}
+
+.transcript-btn {
+  margin-top: 14px;
+  background: transparent;
+  border: none;
+  color: #6e7681;
+  font-family: var(--mono-font);
+  font-size: 0.78rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.transcript-btn:hover {
+  color: #c9d1d9;
+}
+
+.transcript-content {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: #090c12;
+  border-left: 2px solid #30363d;
+  font-size: 0.88rem !important;
+  color: #c9d1d9 !important;
+}
+
+.transcript-content.hidden {
+  display: none;
+}
+
+/* --- FONCTIONNALITÉ E : PUZZLE CHRONOLOGIQUE --- */
+.divergence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.log-card {
+  background: #040507;
+  border: 1px solid #1e242c;
+  padding: 12px;
+  font-size: 0.84rem;
+}
+
+.log-card strong {
+  color: #8b949e;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.75rem;
+}
+
+.highlight-card {
+  border-color: rgba(255, 32, 121, 0.45);
+  background: rgba(255, 32, 121, 0.03);
+}
+
+.timeline-verification-box {
+  margin-top: 14px;
+  padding: 16px;
+  background: #07090f;
+  border: 1px solid #21262d;
+}
+
+.timeline-verification-box label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--pink-wax);
+  margin-bottom: 8px;
+}
+
+.timeline-input-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.timeline-input-group select {
+  flex: 1;
+  min-width: 240px;
+  background: #000;
+  border: 1px solid #30363d;
+  color: #f7f9fa;
+  font-family: var(--mono-font);
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  outline: none;
+}
+
+.verify-btn {
+  background: var(--pink-wax);
+  color: #000;
+  border: none;
+  font-family: var(--head-font);
+  font-weight: bold;
+  font-size: 0.82rem;
+  padding: 0 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.verify-btn:hover {
+  background: #ff529a;
+}
+
+.verification-output {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #8b949e;
 }
 
 /* --- CONTRAT & SIGNATURE --- */
@@ -474,19 +752,165 @@ body {
   opacity: 0.9;
 }
 
-/* --- FOOTER --- */
+/* --- FONCTIONNALITÉ A : TERMINAL FOOTER AGRANDI --- */
 .classified-footer {
   padding: 60px 8vw;
   border-top: 1px solid #1a1e24;
-  text-align: center;
-  font-size: 0.8rem;
-  color: #484f58;
   position: relative;
   z-index: 40;
 }
 
+.terminal-container-block {
+  max-width: 680px;
+  margin: 0 auto 30px;
+  background: #030406;
+  border: 1px solid #1e242d;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+}
 
-/* --- POP-UP BRÈCHE SÉCURITÉ --- */
+.terminal-banner {
+  background: #0d1117;
+  padding: 8px 16px;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  color: #8b949e;
+  border-bottom: 1px solid #1a222d;
+}
+
+.terminal-secret {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.term-prefix {
+  color: var(--pink-wax);
+  font-weight: bold;
+}
+
+#arg-console {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #30363d;
+  color: var(--pink-wax);
+  font-family: var(--mono-font);
+  font-size: 0.95rem;
+  outline: none;
+  flex: 1;
+}
+
+.terminal-btn {
+  background: #111822;
+  border: 1px solid #30363d;
+  color: var(--pink-wax);
+  font-family: var(--mono-font);
+  font-size: 0.78rem;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.terminal-btn:hover {
+  border-color: var(--pink-wax);
+  background: rgba(255, 110, 167, 0.1);
+}
+
+.terminal-response-line {
+  padding: 8px 16px 14px;
+  font-size: 0.82rem;
+  color: #8b949e;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.footer-meta-copy {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #484f58;
+}
+
+/* --- FONCTIONNALITÉ D : MODAL QR CODE --- */
+#qr-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  padding: 20px;
+}
+
+.qr-modal-dialog {
+  background: #090c12;
+  border: 1px solid var(--pink-wax);
+  box-shadow: 0 0 35px rgba(255, 110, 167, 0.25);
+  max-width: 420px;
+  width: 100%;
+  padding: 26px;
+  position: relative;
+  text-align: center;
+}
+
+.modal-close-trigger {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.modal-close-trigger:hover {
+  color: #fff;
+}
+
+.qr-modal-dialog h4 {
+  font-family: var(--head-font);
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.qr-modal-dialog p {
+  font-size: 0.85rem;
+  color: #8b949e;
+  margin-bottom: 18px;
+}
+
+.qr-code-display-wrap {
+  background: #ffffff;
+  padding: 12px;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-matrix-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.qr-fallback-instruction {
+  font-size: 0.75rem !important;
+  color: #6e7681 !important;
+  margin-bottom: 8px !important;
+}
+
+.qr-alt-link {
+  display: inline-block;
+  color: var(--pink-wax);
+  font-size: 0.82rem;
+  text-decoration: underline;
+  letter-spacing: 1px;
+}
+
+/* --- POP-UP BRÈCHE SÉCURITÉ RESPONSIVE --- */
 #breach-alert {
   position: fixed;
   bottom: 24px;
@@ -601,7 +1025,6 @@ body {
     font-size: 0.95rem;
   }
 
-/* Maintient l'enveloppe flottante en arrière-plan discret */
   #evidence-specimen {
     position: fixed;
     top: 22vh;
@@ -609,9 +1032,9 @@ body {
     margin: 0;
     width: 58vw;
     max-width: 240px;
-    opacity: 0.45; /* Légèrement estompée pour laisser le texte parfaitement lisible */
-    z-index: 40;  
-    pointer-events: none;
+    opacity: 0.45;
+    z-index: 10;
+    pointer-events: auto;
   }
 
   .dossier-section {
@@ -644,7 +1067,6 @@ body {
     height: 120px;
   }
 
-  /* Bouton Sceau rectangulaire adapté aux petits écrans */
   #wax-seal-btn {
     width: 100%;
     max-width: 280px;
@@ -664,7 +1086,6 @@ body {
     padding: 40px 6vw;
   }
 
-  /* Alerte brèche centrée et responsive sur petit écran */
   #breach-alert {
     bottom: 16px;
     left: 50%;
@@ -677,5 +1098,17 @@ body {
 
   #breach-alert.breach-hidden {
     transform: translate(-50%, 20px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  #smoke-canvas {
+    display: none;
   }
 }

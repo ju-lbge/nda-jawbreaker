@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NDA JAWBREAKER</title>
+    <title>DROP #087 : NDA JAWBREAKER // SWEET DAMAGE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@700;800&family=Special+Elite&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
     <!-- HUD STATUT DROP -->
     <nav class="hud-bar">
         <div class="hud-left">
-            <span class="pulse-dot"></span>NDA JAWBREAKER
+            <span class="pulse-dot"></span> CLASSIFIED // NDA JAWBREAKER
         </div>
         <div class="hud-center">
             BONBONS N° <strong>252-43</strong>
@@ -30,10 +30,11 @@
         </div>
     </nav>
 
-    <!-- ÉLÉMENT PARALLAX FLOTTANT : ENVELOPPE KRAFT SCELLÉE -->
-    <aside id="evidence-specimen" aria-hidden="true">
-        <div class="specimen-card envelope-mode">
+    <!-- ÉLÉMENT PARALLAX FLOTTANT : ENVELOPPE KRAFT SCELLÉE & QR CODE DISSIMULÉ -->
+    <aside id="evidence-specimen" aria-label="Pièce à conviction : enveloppe scellée">
+        <div class="specimen-card envelope-mode" id="specimen-trigger" role="button" tabindex="0" title="Inspecter l'enveloppe confidentielle">
             <img src="envelope.png" alt="Enveloppe scellée Drop #087 Top Secret" class="envelope-img">
+            <div class="qr-glow-hint" aria-hidden="true"></div>
         </div>
     </aside>
 
@@ -41,7 +42,7 @@
     <header class="hero-section">
         <div class="stamp-top-secret">TOP SECRET // DO NOT OPEN</div>
         <h1 class="glitch-title" data-text="NDA JAWBREAKER">NDA JAWBREAKER</h1>
-        <p class="hero-meta">BONBONS TOP SECRET</p>
+        <p class="hero-meta">BONBONS TOP SECRET // NIVEAU D'ACCRÉDITATION 4</p>
         
         <div class="hero-briefing">
             <p>Une sphère minérale dense au goût classé sous secret défense. Toute commande exige l'acceptation formelle des sanctions juridiques pour divulgation gustative. Le silence est obligatoire.</p>
@@ -53,23 +54,23 @@
         </a>
     </header>
 
-    <!-- SECTION DOSSIER D'INSTRUCTION (ARG & TEXTES CAVIARDÉS ÉTENDUS) -->
+    <!-- SECTION DOSSIER D'INSTRUCTION (ARG, TEXTES CAVIARDÉS & ENQUÊTE) -->
     <section class="dossier-section" id="contract-dossier">
         
         <div class="dossier-header">
             <h2>PIÈCE À CONVICTION</h2>
-            <div class="dossier-sub">BONBONS N° 251-4330</div>
+            <div class="dossier-sub">BONBONS N° 251-4330 // ACCÈS ENQUÊTEUR : <span id="investigation-status-badge">NIVEAU 1 / 5</span></div>
         </div>
 
         <div class="dossier-grid">
             
-            <article class="report-box">
+            <article class="report-box" id="report-toxicology">
                 <span class="badge">INDICE 01 // ANALYSE DE SYNTHÈSE</span>
                 <h3>RAPPORT DE TOXICOLOGIE GUSTATIVE</h3>
-                <p>Le bonbons présent dans ce sachet révèle un goût initial de <span class="censor-text">CANDY CANE CHIMIQUEMENT PURIFIÉ</span> suivi d'une décharge corrosive de <span class="censor-text">MÉTAL CHAUD, D'OZONE ET D'AMERTUME ARTIFICIELLE</span>. Les sujets ont refusé d'élaborer sous menace de poursuites de la division juridique <span class="censor-text">MSCHF LEGAL DISCIPLINE</span>.</p>
+                <p>Le bonbon présent dans ce sachet révèle un goût initial de <span class="censor-text">CANDY CANE CHIMIQUEMENT PURIFIÉ</span> suivi d'une décharge corrosive de <span class="censor-text">MÉTAL CHAUD, D'OZONE ET D'AMERTUME ARTIFICIELLE</span>. Les sujets ont refusé d'élaborer sous menace de poursuites de la division juridique <span class="censor-text">MSCHF LEGAL DISCIPLINE</span>.</p>
             </article>
 
-            <article class="report-box formula-box">
+            <article class="report-box formula-box" id="report-formula">
                 <span class="badge">INDICE 02 // COMPOSITION NON STABILISÉE</span>
                 <h3>COMPOSÉ CORROSIF #087</h3>
                 <div class="chem-formula">
@@ -78,10 +79,94 @@
                 <p class="formula-caption">Tout test cutané a produit une décoloration instantanée de <span class="censor-text">LA SURFACE CELLULAIRE ÉPITHÉLIALE</span>.</p>
             </article>
 
-            <article class="report-box full-span">
-                <span class="badge">DÉPOSITION COBAYE #14 // EXTRAIT TRANSCRIT</span>
-                <h3>JOURNAL DU COBAYE VOLONTAIRE</h3>
+            <!-- FONCTIONNALITÉ B : DOCUMENTS CORROMPUS INTERACTIFS & DÉCHIFFRABLES -->
+            <article class="report-box full-span" id="report-corrupted">
+                <span class="badge">DÉPOSITION COBAYE #14 // EXTRAIT RESTAURABLE</span>
+                <h3>JOURNAL DU COBAYE VOLONTAIRE [REGISTRE CORROMPU]</h3>
                 <p>« À 03h14, j'ai introduit l'échantillon en bouche. La couche externe a libéré <span class="censor-text">UN GOÛT VIOLENT ÉVOQUANT UN MÉDICAMENT D'ENFANCE PÉRIMÉ</span> combiné à <span class="censor-text">DE LA POUSSIÈRE DE CRAIE ET DE SOUFRE</span>. Dès la deuxième minute, mes gencives ont commencé à <span class="censor-text">ENFLER ET DEVENIR FLUORESCENTES SOUS UV</span>. J'ai tenté de cracher la bille mais <span class="censor-text">ELLE ADHÉRAIT AUX TISSUS COMME UNE VENTOUSE MINÉRALE</span>. »</p>
+                
+                <div class="corrupted-memo-container">
+                    <p class="memo-notice">// ANOMALIE NUMÉRIQUE DÉTECTÉE : Cliquez ou touchez les fragments corrompus pour forcer la restauration magnétique du texte.</p>
+                    <div class="memo-interactive-row">
+                        <span class="corrupt-node" data-target="ALPHA" tabindex="0" role="button" aria-label="Restaurer premier fragment">░█▓▒░</span>
+                        <span class="memo-dash">—</span>
+                        <span class="corrupt-node" data-target="04" tabindex="0" role="button" aria-label="Restaurer second fragment">▓██▒░</span>
+                        <span class="memo-dash">—</span>
+                        <span class="corrupt-node" data-target="CLEARED" tabindex="0" role="button" aria-label="Restaurer statut">▒░▒▓█</span>
+                    </div>
+                    <div class="memo-solution-feedback" id="memo-feedback" aria-live="polite">STATUT DOCUMENT : FRAGMENTÉ (0/3 RÉSOLUS)</div>
+                </div>
+            </article>
+
+            <!-- FONCTIONNALITÉ C : MESSAGE AUDIO D'INTERCEPTION SECRET -->
+            <article class="report-box full-span secret-unlocked-box" id="audio-surveillance-module">
+                <span class="badge">INDICE 03 // INTERCEPTION SURVEILLANCE AUDIO (87.4 MHz)</span>
+                <h3>ENREGISTREMENT CABINE DE DÉCONTAMINATION</h3>
+                <p class="audio-intro">Extrait audio récupéré sur le canal d'urgence lors de l'incident de pressurisation de la cuve centrale.</p>
+                
+                <div class="classified-audio-player">
+                    <div class="audio-controls-row">
+                        <button type="button" id="audio-play-btn" class="ctrl-btn" aria-label="Écouter le message classifié">
+                            <span class="btn-icon">▶</span> <span class="btn-label">INTERCEPTER LE SIGNAL</span>
+                        </button>
+                        <div class="audio-track-status">
+                            <span class="audio-waveform-bar" aria-hidden="true"></span>
+                            <span class="audio-waveform-bar" aria-hidden="true"></span>
+                            <span class="audio-waveform-bar" aria-hidden="true"></span>
+                            <span class="audio-waveform-bar" aria-hidden="true"></span>
+                            <span id="audio-timer-display">00:00 / 00:06</span>
+                        </div>
+                        <div class="audio-volume-wrap">
+                            <label for="audio-volume-slider">VOL :</label>
+                            <input type="range" id="audio-volume-slider" min="0" max="1" step="0.05" value="0.7" aria-label="Réglage volume">
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="transcript-toggle-btn" class="transcript-btn" aria-expanded="false" aria-controls="audio-transcript-box">
+                        [+] AFFICHER LA TRANSCRIPTION LÉGALE DÉCLASSIFIÉE
+                    </button>
+
+                    <div id="audio-transcript-box" class="transcript-content hidden" role="region" aria-label="Transcription audio">
+                        <p><strong>[AGENT 04 - 03:15:02] :</strong> « La neutralisation a échoué. Le composant s'est solidifié avant dilution. Retenez le protocole d'urgence, la seconde clé d'accès terminale est gravée sous le code <strong>X-RAY-99</strong>. Ne laissez personne sortir de la zone d'emballage ! »</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- FONCTIONNALITÉ E : CHRONOLOGIE CONTRADICTOIRE & CONCORDANCE -->
+            <article class="report-box full-span" id="chronology-puzzle-module">
+                <span class="badge">INDICE 04 // RECONSTITUTION CHRONOLOGIQUE CONTRADICTOIRE</span>
+                <h3>ANALYSE DES DIVERGENCES TEMPORELLES</h3>
+                <p>Quatre registres officiels mentionnent des dates d'ouverture des ventes divergentes pour tromper la surveillance réglementaire. Classez ou sélectionnez l'année et l'heure authentiques de la rupture du confinement pour calibrer le compte à rebours final.</p>
+
+                <div class="divergence-grid">
+                    <div class="log-card">
+                        <strong>REGISTRE DOUANE :</strong>
+                        <p>Expédition déclarée pour le <em>12 Novembre 2024</em> (Scellé caduc).</p>
+                    </div>
+                    <div class="log-card">
+                        <strong>RAPPORT DE VULNÉRABILITÉ :</strong>
+                        <p>Mise en quarantaine fixée au <em>23 Mai 2025</em> (Refus sanitaire).</p>
+                    </div>
+                    <div class="log-card highlight-card">
+                        <strong>ORDONNANCE JUDICIAIRE #087 :</strong>
+                        <p>Date de déclassification autorisée : <strong>29 Octobre 2026 à 23h59</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-verification-box">
+                    <label for="timeline-selector">CONFIRMER L'ÉCHÉANCE OFFICIELLE DE DÉVERROUILLAGE :</label>
+                    <div class="timeline-input-group">
+                        <select id="timeline-selector" aria-label="Sélectionner la date authentique de libération">
+                            <option value="">-- CHOISIR LE VECTEUR TEMPOREL HOMOLOGUÉ --</option>
+                            <option value="2024-11-12">12/11/2024 (Archive périmée)</option>
+                            <option value="2025-05-23">23/05/2025 (Fausse piste sanitaire)</option>
+                            <option value="2026-10-29">29/10/2026 (Ordonnance #087 - Réelle)</option>
+                            <option value="2027-01-01">01/01/2027 (Projection caduque)</option>
+                        </select>
+                        <button type="button" id="confirm-timeline-btn" class="verify-btn">SYNCHRONISER L'HORLOGE</button>
+                    </div>
+                    <div id="timeline-feedback" class="verification-output" aria-live="polite">STATUT TEMPOREL : DIVERGENCE ACTIVE</div>
+                </div>
             </article>
 
             <article class="report-box full-span">
@@ -92,7 +177,7 @@
 
         </div>
 
-        <!-- CONTRAT NDA -->
+        <!-- CONTRAT NDA (EXISTANT SÉCURISÉ) -->
         <div class="contract-container">
             <div class="contract-ribbon">RESTRICTED ACCESS CONTRACT // NDA</div>
             <div class="contract-body">
@@ -147,10 +232,62 @@
 
     </section>
 
-    <!-- FOOTER -->
+    <!-- FONCTIONNALITÉ A : TERMINAL D'ACCÈS SECRET CENTRALISÉ -->
     <footer class="classified-footer">
-        <p>NDA JAWBREAKER / Bonbons top secret</p>
+        <div class="terminal-container-block">
+            <div class="terminal-banner">TERMINAL ACCÈS DÉFENSE // SYSTÈME MSCHF-087</div>
+            <div class="terminal-secret">
+                <span class="term-prefix">&gt;</span>
+                <input type="text" id="arg-console" placeholder="Entrez un code déclassifié..." autocomplete="off" spellcheck="false" aria-label="Terminal de déclassification">
+                <button type="button" id="arg-submit-btn" class="terminal-btn">TRANSMETTRE</button>
+            </div>
+            <div id="arg-console-output" class="terminal-response-line" aria-live="polite">SYSTÈME PRÊT // ATTENTE VECTEUR D'ACCÈS</div>
+        </div>
+        <p class="footer-meta-copy">NDA JAWBREAKER / Bonbons top secret // DIVISION SWEET DAMAGE</p>
     </footer>
+
+    <!-- FONCTIONNALITÉ D : MODAL QR CODE DISSIMULÉ -->
+    <div id="qr-modal" class="modal-hidden" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
+        <div class="qr-modal-dialog">
+            <button type="button" id="close-qr-modal" class="modal-close-trigger" aria-label="Fermer le document QR">✕</button>
+            <h4 id="qr-modal-title">DOSSIER SOUS CELLOPHANE ÉTENDU</h4>
+            <p>La lampe UV a révélé une matrice cryptée sur la tranche de l'enveloppe kraft :</p>
+            
+            <div class="qr-code-display-wrap">
+                <!-- QR Code vectoriel haute lisibilité pointant vers la route secrète archive-087.html -->
+                <svg class="qr-matrix-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="QR Code vers l'archive secrète">
+                    <rect width="100" height="100" fill="#ffffff" />
+                    <!-- Repères de cadrage -->
+                    <rect x="8" y="8" width="28" height="28" fill="#000000" />
+                    <rect x="12" y="12" width="20" height="20" fill="#ffffff" />
+                    <rect x="16" y="16" width="12" height="12" fill="#000000" />
+                    <rect x="64" y="8" width="28" height="28" fill="#000000" />
+                    <rect x="68" y="12" width="20" height="20" fill="#ffffff" />
+                    <rect x="72" y="16" width="12" height="12" fill="#000000" />
+                    <rect x="8" y="64" width="28" height="28" fill="#000000" />
+                    <rect x="12" y="68" width="20" height="20" fill="#ffffff" />
+                    <rect x="16" y="72" width="12" height="12" fill="#000000" />
+                    <!-- Motifs intérieurs -->
+                    <rect x="42" y="10" width="6" height="6" fill="#000000" />
+                    <rect x="52" y="16" width="6" height="6" fill="#000000" />
+                    <rect x="42" y="24" width="6" height="12" fill="#000000" />
+                    <rect x="12" y="42" width="8" height="8" fill="#000000" />
+                    <rect x="24" y="44" width="6" height="6" fill="#000000" />
+                    <rect x="36" y="42" width="28" height="8" fill="#000000" />
+                    <rect x="70" y="42" width="18" height="8" fill="#000000" />
+                    <rect x="44" y="56" width="12" height="12" fill="#000000" />
+                    <rect x="62" y="58" width="8" height="8" fill="#000000" />
+                    <rect x="76" y="64" width="12" height="12" fill="#000000" />
+                    <rect x="42" y="74" width="10" height="14" fill="#000000" />
+                    <rect x="58" y="78" width="14" height="10" fill="#000000" />
+                    <rect x="78" y="82" width="10" height="8" fill="#000000" />
+                </svg>
+            </div>
+            
+            <p class="qr-fallback-instruction">Impossibilité de numériser avec un terminal externe ?</p>
+            <a href="archive-087.html" id="qr-direct-link" class="qr-alt-link">ACCÉDER MANUELLEMENT AU CACHE D'ARCHIVES #087 &rarr;</a>
+        </div>
+    </div>
 
     <!-- POP-UP ALERTE INTRUSION -->
     <div id="breach-alert" class="breach-hidden">
