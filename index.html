@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DROP #087 : NDA JAWBREAKER // SWEET DAMAGE</title>
+    <title>NDA JAWBREAKER</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@700;800&family=Special+Elite&display=swap" rel="stylesheet">
@@ -11,11 +11,8 @@
 </head>
 <body class="loading-state">
 
-    <!-- EASTER EGG CONSOLE / CODE SOURCE :
-         [PIÈCE À CONVICTION #087-1036]
-         Avis de laboratoire : pH critique mesuré à 1.12. La sphère noire présente une couche de baryte et d'arôme non-référencé.
-         Ne pas respirer les vapeurs lors de la rupture de l'enveloppe sous vide.
-    -->
+    <!-- CANVAS INTERACTIF DE BUÉE (DISSIPATION AU CURSEUR) -->
+    <canvas id="smoke-canvas" aria-hidden="true"></canvas>
 
     <!-- FILTRE GRAIN CINÉMA -->
     <div class="grain-overlay" aria-hidden="true"></div>
@@ -23,17 +20,16 @@
     <!-- HUD STATUT DROP -->
     <nav class="hud-bar">
         <div class="hud-left">
-            <span class="pulse-dot"></span> CLASSIFIED // DEPT. SWEET DAMAGE
+            <span class="pulse-dot"></span>NDA JAWBREAKER
         </div>
         <div class="hud-center">
-            DOSSIER N° <strong>251-4330</strong>
+            BONBONS N° <strong>252-43</strong>
         </div>
         <div class="hud-right" id="hud-timer">
-            DROP CLOS DANS : <span id="countdown">04:12:87</span>
+            VENTE CLOS DANS : <span id="countdown">04:12:87</span>
         </div>
     </nav>
 
-    <!-- ÉLÉMENT PARALLAX FLOTTANT (Sachet Evidence + Sphère Noire) -->
     <!-- ÉLÉMENT PARALLAX FLOTTANT : ENVELOPPE KRAFT SCELLÉE -->
     <aside id="evidence-specimen" aria-hidden="true">
         <div class="specimen-card envelope-mode">
@@ -43,12 +39,12 @@
 
     <!-- HERO : PRÉSENTATION DU DROP -->
     <header class="hero-section">
-        <div class="stamp-top-secret">TOP SECRET // DO NOT OPEN</div>[cite: 2]
+        <div class="stamp-top-secret">TOP SECRET // DO NOT OPEN</div>
         <h1 class="glitch-title" data-text="NDA JAWBREAKER">NDA JAWBREAKER</h1>
-        <p class="hero-meta">DROP #087 // PROTOCOLE DE RESTRICTION SENSORIELLE</p>
+        <p class="hero-meta">BONBONS TOP SECRET</p>
         
         <div class="hero-briefing">
-            <p>Une sphère minérale dense au goût classé sous secret défense[cite: 2]. Toute commande exige l'acceptation formelle des sanctions juridiques pour divulgation gustative. Le silence est obligatoire.</p>
+            <p>Une sphère minérale dense au goût classé sous secret défense. Toute commande exige l'acceptation formelle des sanctions juridiques pour divulgation gustative. Le silence est obligatoire.</p>
         </div>
 
         <a href="#contract-dossier" class="cta-scroll">
@@ -57,36 +53,48 @@
         </a>
     </header>
 
-    <!-- SECTION DOSSIER D'INSTRUCTION (ARG & INDICES) -->
+    <!-- SECTION DOSSIER D'INSTRUCTION (ARG & TEXTES CAVIARDÉS ÉTENDUS) -->
     <section class="dossier-section" id="contract-dossier">
         
         <div class="dossier-header">
-            <h2>PIÈCE À CONVICTION N° #087-1036</h2>[cite: 2]
-            <div class="dossier-sub">ARCHIVE N° 251-4330 // DATE D'INCIDENT : 5/23/252</div>[cite: 2]
+            <h2>PIÈCE À CONVICTION</h2>
+            <div class="dossier-sub">BONBONS N° 251-4330</div>
         </div>
 
         <div class="dossier-grid">
             
             <article class="report-box">
-                <span class="badge">INDICE 01 // ANALYSE CHIMIQUE</span>
+                <span class="badge">INDICE 01 // ANALYSE DE SYNTHÈSE</span>
                 <h3>RAPPORT DE TOXICOLOGIE GUSTATIVE</h3>
-                <p>L'échantillon prélevé dans la cuve 04 révèle un goût initial de <span class="censor-text">CANDY CANE SYNTHÉTIQUE</span> suivi d'un arrière-goût brutal de <span class="censor-text">MÉTAL LOURD ET D'OZONE</span>. Les sujets testeurs ont refusé de parler sous menace de poursuites de la division <span class="censor-text">MSCHF LEGAL FORCE</span>[cite: 2].</p>
+                <p>Le bonbons présent dans ce sachet révèle un goût initial de <span class="censor-text">CANDY CANE CHIMIQUEMENT PURIFIÉ</span> suivi d'une décharge corrosive de <span class="censor-text">MÉTAL CHAUD, D'OZONE ET D'AMERTUME ARTIFICIELLE</span>. Les sujets ont refusé d'élaborer sous menace de poursuites de la division juridique <span class="censor-text">MSCHF LEGAL DISCIPLINE</span>.</p>
             </article>
 
             <article class="report-box formula-box">
-                <span class="badge">INDICE 02 // FORMULE INSTABLE</span>
-                <h3>COMPOSÉ #087</h3>
+                <span class="badge">INDICE 02 // COMPOSITION NON STABILISÉE</span>
+                <h3>COMPOSÉ CORROSIF #087</h3>
                 <div class="chem-formula">
-                    C<sub>12</sub>H<sub>22</sub>O<sub>11</sub> + [SECRET_ACID] &rarr; pH &lt; 1.2
+                    C<sub>12</sub>H<sub>22</sub>O<sub>11</sub> + [SOLVANT_X] &rarr; pH &lt; 1.08
                 </div>
-                <p class="formula-caption">Ne pas mettre en contact avec des papilles non déclarées au greffe.</p>
+                <p class="formula-caption">Tout test cutané a produit une décoloration instantanée de <span class="censor-text">LA SURFACE CELLULAIRE ÉPITHÉLIALE</span>.</p>
+            </article>
+
+            <article class="report-box full-span">
+                <span class="badge">DÉPOSITION COBAYE #14 // EXTRAIT TRANSCRIT</span>
+                <h3>JOURNAL DU COBAYE VOLONTAIRE</h3>
+                <p>« À 03h14, j'ai introduit l'échantillon en bouche. La couche externe a libéré <span class="censor-text">UN GOÛT VIOLENT ÉVOQUANT UN MÉDICAMENT D'ENFANCE PÉRIMÉ</span> combiné à <span class="censor-text">DE LA POUSSIÈRE DE CRAIE ET DE SOUFRE</span>. Dès la deuxième minute, mes gencives ont commencé à <span class="censor-text">ENFLER ET DEVENIR FLUORESCENTES SOUS UV</span>. J'ai tenté de cracher la bille mais <span class="censor-text">ELLE ADHÉRAIT AUX TISSUS COMME UNE VENTOUSE MINÉRALE</span>. »</p>
+            </article>
+
+            <article class="report-box full-span">
+                <span class="badge">NOTE AUX AGENTS DE SALLE // CLASSIFICATION 4</span>
+                <h3>PROCÉDURE DE PURGE EN CAS D'ACCIDENT</h3>
+                <p>En cas de projection buccale accidentelle, ne pas appeler le SAMU. Appliquez immédiatement la solution de <span class="censor-text">BICARBONATE CONCENTRÉ À 40%</span> et confinez l'employé dans un caisson à pression négative. Si l'employé tente de décrire la saveur à un tiers, appliquez la clause <span class="censor-text">D'EXTRACTION RADICALE DU LARYNX PAR VOIE AMBULATOIRE</span>.</p>
             </article>
 
         </div>
 
-        <!-- CLAUSES COERCITIVES -->
+        <!-- CONTRAT NDA -->
         <div class="contract-container">
-            <div class="contract-ribbon">RESTRICTED ACCESS CONTRACT</div>
+            <div class="contract-ribbon">RESTRICTED ACCESS CONTRACT // NDA</div>
             <div class="contract-body">
                 <h3>CLAUSES PARTICULIÈRES D'ACQUISITION</h3>
                 
@@ -94,7 +102,7 @@
                     <li>
                         <label>
                             <input type="checkbox" class="nda-checkbox">
-                            <span><strong>CLAUSE 1 :</strong> Je certifie ne pas divulguer la saveur exacte sous forme d'adjectif, de tweet, de TikTok ou de mime corporel.</span>
+                            <span><strong>CLAUSE 1 :</strong> Je certifie sous serment ne pas divulguer la saveur exacte sous forme d'adjectif, de tweet, de TikTok ou de mime corporel.</span>
                         </label>
                     </li>
                     <li>
@@ -106,7 +114,7 @@
                     <li>
                         <label>
                             <input type="checkbox" class="nda-checkbox">
-                            <span><strong>CLAUSE 3 :</strong> Je consens à détruire l'emballage sous vide par incinération sécurisée après consommation intégrale[cite: 2].</span>
+                            <span><strong>CLAUSE 3 :</strong> Je consens à détruire l'emballage sous vide par incinération sécurisée après consommation intégrale.</span>
                         </label>
                     </li>
                     <li>
@@ -130,9 +138,8 @@
                 <div class="seal-checkout">
                     <button id="wax-seal-btn" disabled>
                         <span class="wax-text">SCELLER &amp; ACQUÉRIR</span>
-                        <span class="wax-price">$87.00 // DROP 087</span>
+                        <span class="wax-price">10€</span>
                     </button>
-                    <p id="lock-warning">VERROUILLÉ : SIGNEZ LE PROTOCOLE ET VALIDEZ LES 4 CLAUSES</p>
                 </div>
 
             </div>
@@ -140,13 +147,9 @@
 
     </section>
 
-    <!-- FOOTER TERMINAL ARG -->
+    <!-- FOOTER -->
     <footer class="classified-footer">
-        <p>SWEET DAMAGE LABS // DIVISION MSCHF #087[cite: 2]</p>
-        <div class="terminal-secret">
-            <span class="term-prefix">&gt;</span>
-            <input type="text" id="arg-console" placeholder="Entrez le code d'accès de l'échantillon..." autocomplete="off">
-        </div>
+        <p>NDA JAWBREAKER / Bonbons top secret</p>
     </footer>
 
     <!-- POP-UP ALERTE INTRUSION -->
@@ -160,7 +163,7 @@
 
     <!-- EFFET TAMPON SCELLÉ GÉANT -->
     <div id="stamp-modal" class="modal-hidden">
-        <div class="big-stamp">SCELLÉ // CONFIDENTIEL</div>[cite: 2]
+        <div class="big-stamp">SCELLÉ // CONFIDENTIEL</div>
     </div>
 
     <script src="script.js"></script>

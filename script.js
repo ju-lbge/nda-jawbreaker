@@ -3,14 +3,80 @@ document.addEventListener("DOMContentLoaded", () => {
     const specimen = document.getElementById("evidence-specimen");
     const checkboxes = document.querySelectorAll(".nda-checkbox");
     const waxBtn = document.getElementById("wax-seal-btn");
-    const lockWarning = document.getElementById("lock-warning");
     const stampModal = document.getElementById("stamp-modal");
     const breachAlert = document.getElementById("breach-alert");
-    const argConsole = document.getElementById("arg-console");
     const countdownEl = document.getElementById("countdown");
     const censors = document.querySelectorAll(".censor-text");
 
-    // --- 1. LAMPE TORCHE DYNAMIQUE SUR TEXTES CAVIARDÉS ---
+    // --- 1. MOTEUR DE BUÉE AVEC EFFACEMENT CIRCULAIRE NET ---
+    const smokeCanvas = document.getElementById("smoke-canvas");
+    const sCtx = smokeCanvas.getContext("2d");
+    let w = smokeCanvas.width = window.innerWidth;
+    let h = smokeCanvas.height = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+        w = smokeCanvas.width = window.innerWidth;
+        h = smokeCanvas.height = window.innerHeight;
+        generateMist();
+    });
+
+    // Génération de la buée froide avec reflets subtils
+    function generateMist() {
+        sCtx.globalCompositeOperation = "source-over";
+        sCtx.fillStyle = "rgba(18, 10, 14, 0.94)";
+        sCtx.fillRect(0, 0, w, h);
+
+        for (let i = 0; i < 50; i++) {
+            const rx = Math.random() * w;
+            const ry = Math.random() * h;
+            const rad = 70 + Math.random() * 150;
+            const grad = sCtx.createRadialGradient(rx, ry, 10, rx, ry, rad);
+            grad.addColorStop(0, "rgba(245, 3, 128, 0.07)");
+            grad.addColorStop(0.7, "rgba(245, 3, 128, 0.02)");
+            grad.addColorStop(1, "transparent");
+            sCtx.fillStyle = grad;
+            sCtx.beginPath();
+            sCtx.arc(rx, ry, rad, 0, Math.PI * 2);
+            sCtx.fill();
+        }
+    }
+    generateMist();
+
+    // Effacement circulaire : centre 100% net avec dégradé doux sur les bords
+    function wipeCircle(x, y) {
+        sCtx.globalCompositeOperation = "destination-out";
+        const brushRadius = 90;
+        const grad = sCtx.createRadialGradient(x, y, 0, x, y, brushRadius);
+        grad.addColorStop(0, "rgba(0, 0, 0, 1)");
+        grad.addColorStop(0.7, "rgba(0, 0, 0, 0.95)");
+        grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+        sCtx.fillStyle = grad;
+        sCtx.beginPath();
+        sCtx.arc(x, y, brushRadius, 0, Math.PI * 2);
+        sCtx.fill();
+    }
+
+    // Support Souris (Desktop)
+    window.addEventListener("mousemove", (e) => {
+        wipeCircle(e.clientX, e.clientY);
+    }, { passive: true });
+
+    // Support Tactile (Mobiles & Tablettes)
+    window.addEventListener("touchmove", (e) => {
+        if (e.touches && e.touches[0]) {
+            wipeCircle(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    // Ré-embuage progressif en arrière-plan
+    setInterval(() => {
+        sCtx.globalCompositeOperation = "source-over";
+        sCtx.fillStyle = "rgba(58, 29, 47, 0.01)";
+        sCtx.fillRect(0, 0, w, h);
+    }, 150);
+
+    // --- 2. LAMPE TORCHE DYNAMIQUE SUR TEXTES CAVIARDÉS ---
     censors.forEach(el => {
         el.addEventListener("mousemove", (e) => {
             const rect = el.getBoundingClientRect();
@@ -21,11 +87,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- 2. COMPTE À REBOURS DU DROP ÉPHÉMÈRE ---
+    // --- 3. COMPTE À REBOURS DU DROP ---
     let totalSeconds = 4 * 3600 + 12 * 60 + 47;
     function updateCountdown() {
         if (totalSeconds <= 0) {
-            countdownEl.textContent = "00:00:00 - EXCHANGES CLOSED";
+            countdownEl.textContent = "00:00:00 - CLOS";
             return;
         }
         totalSeconds--;
@@ -36,16 +102,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     setInterval(updateCountdown, 1000);
 
-    // --- 3. PARALLAX FLUIDE SUR L'ENVELOPPE FLOTTANTE ---
+// --- 4. PARALLAX FLUIDE SUR L'ENVELOPPE (DESKTOP ET MOBILE) ---
     let targetY = 0;
     let currentY = 0;
     let targetRot = 0;
     let currentRot = 0;
 
     window.addEventListener("scroll", () => {
-        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-        targetY = scrollPercent * 280;
-        targetRot = -4 + scrollPercent * 16;
+        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1);
+        const isMobile = window.innerWidth <= 768;
+        
+        // Amplitude adaptée : 160px sur smartphone, 280px sur desktop
+        targetY = scrollPercent * (isMobile ? 160 : 280);
+        targetRot = (isMobile ? -2 : -4) + scrollPercent * (isMobile ? 8 : 16);
     }, { passive: true });
 
     function renderParallax() {
@@ -59,16 +128,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     renderParallax();
 
-    // --- 4. CANVAS DE SIGNATURE TACTILE / SOURIS ---
+    // --- 5. CANVAS DE SIGNATURE RESPONSIVE TACTILE / SOURIS ---
     const canvas = document.getElementById("sig-canvas");
     const ctx = canvas.getContext("2d");
     const clearBtn = document.getElementById("clear-sig");
     let isDrawing = false;
     let hasSigned = false;
 
-    ctx.strokeStyle = "#111317";
-    ctx.lineWidth = 2.5;
-    ctx.lineCap = "round";
+    function resizeSignatureCanvas() {
+        const wrapper = canvas.parentElement;
+        const targetWidth = Math.min(340, wrapper.clientWidth || 340);
+        if (canvas.width !== targetWidth) {
+            canvas.width = targetWidth;
+            canvas.height = 130;
+            ctx.strokeStyle = "#111317";
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = "round";
+        }
+    }
+    resizeSignatureCanvas();
+    window.addEventListener("resize", resizeSignatureCanvas);
 
     function getCoords(e) {
         const rect = canvas.getBoundingClientRect();
@@ -115,29 +194,19 @@ document.addEventListener("DOMContentLoaded", () => {
         checkCompliance();
     });
 
-    // --- 5. VÉRIFICATION DES CLAUSES ET SIGNATURE ---
+    // --- 6. DÉBLOCAGE DU BOUTON (CLAUSES + SIGNATURE) ---
     function checkCompliance() {
         const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-        
-        if (allChecked && hasSigned) {
-            waxBtn.disabled = false;
-            lockWarning.textContent = "PROTOCOLE REMPLI // ACCÈS AU CONTENEUR DÉVERROUILLÉ";
-            lockWarning.style.color = "var(--term-green)";
-        } else {
-            waxBtn.disabled = true;
-            lockWarning.textContent = "VERROUILLÉ : SIGNEZ LE PROTOCOLE ET VALIDEZ LES 4 CLAUSES";
-            lockWarning.style.color = "#8b949e";
-        }
+        waxBtn.disabled = !(allChecked && hasSigned);
     }
 
     checkboxes.forEach(cb => cb.addEventListener("change", checkCompliance));
 
-    // --- 6. SYNTHÈSE AUDIO WEB-AUDIO (IMPACT TAMPON SANS FICHIER EXTERNE) ---
+    // --- 7. IMPACT AUDIO (WEB AUDIO SANS FICHIER EXTERNE) ---
     function playSlamImpact() {
         try {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             const actx = new AudioContext();
-            
             const osc = actx.createOscillator();
             const gain = actx.createGain();
             
@@ -156,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch(e) {}
     }
 
-    // --- 7. SCEAU DE PAIEMENT & IMPACT VISUEL ---
+    // --- 8. ACTION DU SCEAU DE CIRE ---
     waxBtn.addEventListener("click", () => {
         if (waxBtn.disabled) return;
         
@@ -172,38 +241,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const orderRef = "SWD-087-" + Math.random().toString(36).substring(2, 7).toUpperCase();
             waxBtn.disabled = true;
             waxBtn.innerHTML = `<span class="wax-text">ACQUISITION OK</span><span class="wax-price">${orderRef}</span>`;
-            lockWarning.textContent = "ÉCHANTILLON EN COURS D'ACHEMINEMENT SÉCURISÉ // GARDEZ LE SILENCE";
-            lockWarning.style.color = "var(--pink-wax)";
         }, 1800);
     });
 
-    // --- 8. POP-UP ALERTE BRÈCHE ALÉATOIRE ---
+    // --- 9. POP-UP ALERTE BRÈCHE ALÉATOIRE ---
     function triggerBreach() {
         if (!breachAlert) return;
         breachAlert.classList.remove("breach-hidden");
-        
-        setTimeout(() => {
-            breachAlert.classList.add("breach-hidden");
-        }, 3200);
-
+        setTimeout(() => breachAlert.classList.add("breach-hidden"), 3200);
         setTimeout(triggerBreach, 14000 + Math.random() * 16000);
     }
     setTimeout(triggerBreach, 6000);
-
-    // --- 9. EASTER EGG CONSOLE ARG ---
-    if (argConsole) {
-        argConsole.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                const val = argConsole.value.trim().toLowerCase();
-                if (val === "251-4330" || val === "#087-1036") {
-                    alert("RAPPORT DÉCLASSIFIÉ : Le bonbon n'a pas été aromatisé intentionnellement. Il s'agit d'un résidu de polymère comestible ayant absorbé le nettoyant industriel.");
-                } else if (val === "sujet zero") {
-                    alert("IDENTIFIANT CONFIRMÉ : Vos coordonnées ont été purgées du registre public. Conservez l'enveloppe.");
-                } else {
-                    alert("ERREUR CODE ARCHIVE : Entrée non répertoriée.");
-                }
-                argConsole.value = "";
-            }
-        });
-    }
 });
